@@ -1,13 +1,12 @@
 #include "main.h"
 
-// Define the global pad object
-PadState pad;
-
 int main(int argc, char **argv)
 {
     consoleInit(nullptr);
 
     // Initialize the pad state to listen to any controller
+    PadState pad;
+    padConfigureInput(1, HidNpadStyleSet_NpadStandard);
     padInitializeDefault(&pad);
 
     states::StateMachine stateMachine;
@@ -25,8 +24,7 @@ int main(int argc, char **argv)
     while (appletMainLoop())
     {
         // Scan the controller state
-        padUpdate(&pad);
-        u64 kDown = padGetButtonsDown(&pad); // Get the buttons that were just pressed
+        u64 kDown = Utils::GetControllerInputs(&pad);
         if (kDown & HidNpadButton_Plus || (kDown & HidNpadButton_B && stateMachine.currentState->name() == "main"))
             break;
 

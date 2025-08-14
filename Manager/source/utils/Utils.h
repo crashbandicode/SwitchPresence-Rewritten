@@ -1,6 +1,5 @@
 #pragma once
 #include <switch.h>
-#include <switch/services/hid.h> // <-- Ensure this line is here
 #include <string>
 #include <cstring>
 #include <sstream>
@@ -31,4 +30,5 @@ namespace Utils
     PresenceState getPresenceState();
     Result DumpIcons();
     Result getAppControlData(u64 programId, NsApplicationControlData *appControlData);
+    u64 GetControllerInputs(PadState* pad);
 } // namespace Utils

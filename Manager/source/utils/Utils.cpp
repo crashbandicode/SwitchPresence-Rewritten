@@ -1,5 +1,4 @@
 #include "Utils.h"
-#include <switch/services/hid.h>
 
 namespace Utils
 {
@@ -109,5 +108,13 @@ Result getAppControlData(u64 programId, NsApplicationControlData *appControlData
     return 0;
 }
 
+u64 GetControllerInputs(PadState* pad)
+{
+//    hidScanInput();
 
+    padUpdate(pad);
+
+    u64 kDown = padGetButtonsDown(pad);
+    return kDown;
+}
 } // namespace Utils
