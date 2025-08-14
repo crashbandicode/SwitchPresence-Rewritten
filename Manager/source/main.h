@@ -10,3 +10,6 @@
 #include "states/ErrorState.h"
 #include "states/DumpResState.h"
 #include "states/DumpCompleteState.h"
+
+// Declare the global pad object
+extern PadState pad;

@@ -1,8 +1,14 @@
 #include "main.h"
 
+// Define the global pad object
+PadState pad;
+
 int main(int argc, char **argv)
 {
     consoleInit(nullptr);
+
+    // Initialize the pad state to listen to any controller
+    padInitializeDefault(&pad);
 
     states::StateMachine stateMachine;
 
@@ -18,8 +24,10 @@ int main(int argc, char **argv)
 
     while (appletMainLoop())
     {
-        u64 kDown = Utils::GetControllerInputs();
-        if (kDown & KEY_PLUS || (kDown & KEY_B && stateMachine.currentState->name() == "main"))
+        // Scan the controller state
+        padUpdate(&pad);
+        u64 kDown = padGetButtonsDown(&pad); // Get the buttons that were just pressed
+        if (kDown & HidNpadButton_Plus || (kDown & HidNpadButton_B && stateMachine.currentState->name() == "main"))
             break;
 
         printf(CONSOLE_ESC(2J));
@@ -44,8 +52,8 @@ extern "C"
             goto error;
         rc = nsInitialize();
 
-    error:
-        states::ErrorState::error = rc;
+        error:
+            states::ErrorState::error = rc;
     }
 
     void userAppExit(void)

@@ -34,7 +34,6 @@ extern "C"
         R_ASSERT(pminfoInitialize());
 
         constexpr SocketInitConfig sockConf = {
-            .bsdsockets_version = 1,
 
             .tcp_tx_buf_size = 0x800,
             .tcp_rx_buf_size = 0x800,

@@ -14,13 +14,12 @@ void MainMenu::enter()
 
 void MainMenu::calc(StateMachine *stateMachine, u64 inputs)
 {
-    if (inputs & KEY_UP)
+    if (inputs & HidNpadButton_Up)
         selection--;
 
-    if (inputs & KEY_DOWN)
+    if (inputs & HidNpadButton_Down)
         selection++;
 
-    // check for under/overflow
     long int size = MainMenuItems.size();
     if (selection < 0)
         selection = size - 1;
@@ -28,7 +27,7 @@ void MainMenu::calc(StateMachine *stateMachine, u64 inputs)
         selection = 0;
     Utils::printItems(MainMenuItems, "Main Menu", selection);
 
-    if (inputs & KEY_A)
+    if (inputs & HidNpadButton_A)
         switch (selection)
         {
         case 0:

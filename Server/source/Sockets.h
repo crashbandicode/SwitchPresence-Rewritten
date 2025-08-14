@@ -4,7 +4,7 @@
 #define PACKETMAGIC 0xFFAADD23
 #define PORT 0xCAFE
 
-struct PACKED titlepacket
+struct NX_PACKED titlepacket
 {
     u64 magic;
     u64 programId;

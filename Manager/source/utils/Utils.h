@@ -1,5 +1,6 @@
 #pragma once
 #include <switch.h>
+#include <switch/services/hid.h> // <-- Ensure this line is here
 #include <string>
 #include <cstring>
 #include <sstream>
@@ -26,9 +27,8 @@ enum class PresenceState
 
 namespace Utils
 {
-void printItems(const std::vector<std::string> &items, std::string menuTitle, int);
-PresenceState getPresenceState();
-Result DumpIcons();
-Result getAppControlData(u64 programId, NsApplicationControlData *appControlData);
-u64 GetControllerInputs();
+    void printItems(const std::vector<std::string> &items, std::string menuTitle, int);
+    PresenceState getPresenceState();
+    Result DumpIcons();
+    Result getAppControlData(u64 programId, NsApplicationControlData *appControlData);
 } // namespace Utils
