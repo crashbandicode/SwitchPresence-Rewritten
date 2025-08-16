@@ -24,7 +24,6 @@ all: $(COMPONENTS)
 #	Zipping up files
 	@echo Zipping files now...
 	cd $(TOPDIR)/$(OUT_DIR)/$(OUT_SERVER_DIR); 	zip -r $(TOPDIR)/$(OUT_DIR)/Sysmodule.zip ./;	cd $(TOPDIR);
-	rm -rf $(TOPDIR)/$(OUT_DIR)/$(OUT_SERVER_DIR)
 	@echo [ZIPPED] All the files have been zipped and placed in $(OUT_DIR)/.
 	@echo [DONE]
 
