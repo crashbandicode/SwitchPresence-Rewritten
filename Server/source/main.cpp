@@ -85,8 +85,6 @@ void __appInit(void)
     R_CHECK(apmInitialize());
     log_message("APM initialized successfully");
 
-
-
     R_CHECK(pmshellInitialize());
     log_message("PM initialized successfully");
     R_CHECK(pminfoInitialize());
@@ -109,8 +107,7 @@ void __appInit(void)
         log_message("pcv initialized successfully");
     }
 
-    R_CHECK(nsInitialize());
-    log_message("NS initialized successfully");
+    // NS removed to avoid crash; add back after fixing NPDM permissions
 
     static const SocketInitConfig socketInitConfig = {
         .tcp_tx_buf_size = 0x800,
@@ -121,12 +118,10 @@ void __appInit(void)
         .udp_rx_buf_size = 0,
         .sb_efficiency = 1,
     };
-    log_message("begin socket initializing initialized successfully");
     R_CHECK(socketInitialize(&socketInitConfig));
     log_message("Socket initialized successfully");
 
     smExit();
-    log_message("sm exited");
 }
 
 // Service deinitialization.
@@ -141,7 +136,6 @@ void __appExit(void)
     setsysExit();
     pminfoExit();
     pmshellExit();
-    nsExit();
     apmExit();
     hidsysExit();
     hidExit();
@@ -239,23 +233,9 @@ int main(int argc, char* argv[])
                 u64 title_id = 0;
                 rc = pminfoGetProgramId(&title_id, pid);
                 if (R_SUCCEEDED(rc)) {
-                    NsApplicationControlData control_data;
-                    size_t bytes_read = 0;
-                    rc = nsGetApplicationControlData(NsApplicationControlSource_Storage, title_id, &control_data, sizeof(control_data), &bytes_read);
-
-                    if (R_SUCCEEDED(rc) && bytes_read > 0) {
-                        char name_buffer[256] = "Unknown";
-                        for (int i = 0; i < 16; i++) {
-                            if (control_data.nacp.lang[i].name[0] != '\0') {
-                                strncpy(name_buffer, control_data.nacp.lang[i].name, sizeof(name_buffer) - 1);
-                                break;
-                            }
-                        }
-                        snprintf(json_buffer, sizeof(json_buffer), "{ \"game_title_id\": \"%016lX\", \"game_name\": \"%s\" }\n",
-                                 title_id, name_buffer);
-                    } else {
-                         snprintf(json_buffer, sizeof(json_buffer), "{ \"game_title_id\": null, \"game_name\": \"On Home Menu\" }\n");
-                    }
+                    // NS removed, fallback to unknown
+                    snprintf(json_buffer, sizeof(json_buffer), "{ \"game_title_id\": \"%016lX\", \"game_name\": \"Unknown Game\" }\n",
+                             title_id);
                 } else {
                     snprintf(json_buffer, sizeof(json_buffer), "{ \"game_title_id\": null, \"game_name\": \"On Home Menu\" }\n");
                 }
